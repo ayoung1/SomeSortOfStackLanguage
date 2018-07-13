@@ -1,8 +1,7 @@
 #! /usr/bin/env python
 import click
-import commands
-import shuggar
-from environment import Environment
+from stacklang import commands, shuggar
+from stacklang.environment import Environment
 
 env_globals = {}
 
