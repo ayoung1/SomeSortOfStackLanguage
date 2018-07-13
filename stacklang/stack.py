@@ -10,6 +10,15 @@ class Stack(object):
     def __getitem__(self, key):
         return self.stack[key]
 
+    def __iter__(self):
+        return self
+
+    def next(self):
+        i = self.pop()
+        if i:
+            return i
+        raise StopIteration()
+
     def push(self, element):
         self.stack.append(element)
 

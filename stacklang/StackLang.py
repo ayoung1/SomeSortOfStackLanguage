@@ -1,12 +1,13 @@
 #! /usr/bin/env python
 import click
 import commands
+import shuggar
 from environment import Environment
 
 env_globals = {}
 
 @click.command()
-@click.option('--script', help='The Script to interpret')
+@click.argument('script')
 @click.option('--verbose', default=False, help='Output interpreter debug information')
 def runScript(script, verbose):
     env_globals['verbose'] = verbose
@@ -26,11 +27,19 @@ def debug(msg):
 
 
 def parseCode(code):
-    for c in code:
+    i = iter(code)
+    for c in i:
         try:
             env_globals['env'].push(int(c))
         except:
-            commands.runCommand(env_globals['env'], c)
+            try:
+                if commands.runCommand(env_globals['env'], c):
+                    i.next()
+            except KeyError as e:
+                debug(e)
+                shuggar.parseShuggar(env_globals['env'], c, i)
+            except Exception as e:
+                debug(e)
 
 if __name__ == '__main__':
     env_globals['env'] = Environment()

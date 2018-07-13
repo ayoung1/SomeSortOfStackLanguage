@@ -14,6 +14,10 @@ class Environment(object):
             self.stackIndex -= 1
         self.__clamp()
 
+    def jumpStack(self, index):
+        self.stackIndex = index
+        self.__clamp()
+
     def push(self, ele):
         self.stacks[self.stackIndex].push(ele)
 
